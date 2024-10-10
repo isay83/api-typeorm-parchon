@@ -1,0 +1,1 @@
+{"root":["./src/app.ts","./src/db.ts","./src/index.ts","./src/controllers/department.controllers.ts","./src/entities/department.ts","./src/routes/department.routes.ts"],"errors":true,"version":"5.6.2"}
