@@ -1,19 +1,18 @@
 import { RequestHandler } from "express";
-import { City } from "../entities/City";
+import { Tier } from "../entities/Tier";
 
-export const createCity: RequestHandler = async (req, res) => {
+export const createTier: RequestHandler = async (req, res) => {
     try {
-        const { id, city, id_department } = req.body;
+        const { id, tier, description } = req.body;
 
-        const _city = new City();
-        _city.id = id;
-        _city.city = city;
-        _city.id_department = id_department;
+        const _tier = new Tier();
+        _tier.id = id;
+        _tier.tier = tier;
+        _tier.description = description;
 
+        await _tier.save();
 
-        await _city.save();
-
-        res.status(201).json(_city);
+        res.status(201).json(_tier);
     } catch (err) {
         if (err instanceof Error) {
             res.status(500).json({ message: err.message });
@@ -22,10 +21,10 @@ export const createCity: RequestHandler = async (req, res) => {
     }
 };
 
-export const getCitys: RequestHandler = async (req, res) => {
+export const getTiers: RequestHandler = async (req, res) => {
     try {
-        const _city = await City.find();
-        res.json(_city);
+        const _tier = await Tier.find();
+        res.json(_tier);
     } catch (err) {
         if (err instanceof Error) {
             res.status(500).json({ message: err.message });
@@ -34,15 +33,15 @@ export const getCitys: RequestHandler = async (req, res) => {
     }
 };
 
-export const updateCity: RequestHandler = async (req, res) => {
+export const updateTier: RequestHandler = async (req, res) => {
     const { id } = req.params
 
     try {
-        const _city = await City.findOneBy({ id: parseInt(id) })
+        const _tier = await Tier.findOneBy({ id: parseInt(id) })
 
-        if (!_city) res.status(404).json({ message: "City not found" })
+        if (!_tier) res.status(404).json({ message: "Tier not found" })
 
-        await City.update({ id: parseInt(id) }, req.body)
+        await Tier.update({ id: parseInt(id) }, req.body)
 
         res.sendStatus(204)
     } catch (err) {
@@ -53,14 +52,14 @@ export const updateCity: RequestHandler = async (req, res) => {
     }
 };
 
-export const deleteCity: RequestHandler = async (req, res) => {
+export const deleteTier: RequestHandler = async (req, res) => {
     const { id } = req.params;
 
     try {
-        const result = await City.delete({ id: parseInt(id) })
+        const result = await Tier.delete({ id: parseInt(id) })
 
         if (result.affected === 0) {
-            res.status(404).json({ message: "City not found" })
+            res.status(404).json({ message: "Tier not found" })
         }
 
         res.sendStatus(204)
@@ -72,17 +71,17 @@ export const deleteCity: RequestHandler = async (req, res) => {
     }
 };
 
-export const getCity: RequestHandler = async (req, res) => {
+export const getTier: RequestHandler = async (req, res) => {
     try {
         const { id } = req.params
 
-        const _city = await City.findOneBy({ id: parseInt(id) })
+        const _tier = await Tier.findOneBy({ id: parseInt(id) })
 
-        if (!_city) {
-            res.status(404).json({ message: "City not found" })
+        if (!_tier) {
+            res.status(404).json({ message: "Tier not found" })
         }
 
-        res.json(_city)
+        res.json(_tier)
     } catch (err) {
         if (err instanceof Error) {
             res.status(500).json({ message: err.message });
