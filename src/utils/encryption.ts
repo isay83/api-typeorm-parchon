@@ -28,9 +28,6 @@ export const verifyPassword = (password: string, storedHash: string): boolean =>
     const newDerivedKey = forge.pkcs5.pbkdf2(password, salt, iterations, keyLength);
     const newDerivedKeyBase64 = forge.util.encode64(newDerivedKey);
 
-    console.log("Generated derived key:", newDerivedKeyBase64);
-    console.log("Original derived key:", derivedKeyBase64);
-
     return newDerivedKeyBase64 === derivedKeyBase64;
 };
 
