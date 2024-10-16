@@ -32,13 +32,16 @@ CREATE TABLE `Role` (
 
 CREATE TABLE `Place` (
   `id` integer PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `place` varchar(255) NOT NULL
+  `place` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `id_city` integer NOT NULL
 );
 
 CREATE TABLE `Event` (
   `id` integer PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `event` varchar(255) NOT NULL,
   `description` varchar(1000),
+  `details` TEXT NOT NULL,
   `date` date NOT NULL,
   `time` time NOT NULL,
   `image` varchar(255),
@@ -89,6 +92,8 @@ ALTER TABLE `User` ADD FOREIGN KEY (`id_city`) REFERENCES `City` (`id`);
 
 ALTER TABLE `User` ADD FOREIGN KEY (`id_role`) REFERENCES `Role` (`id`);
 
+ALTER TABLE `Place` ADD FOREIGN KEY (`id_city`) REFERENCES `City` (`id`); 
+
 ALTER TABLE `Event` ADD FOREIGN KEY (`id_category`) REFERENCES `Category` (`id`);
 
 ALTER TABLE `Event` ADD FOREIGN KEY (`id_user`) REFERENCES `User` (`id`);
@@ -133,12 +138,12 @@ END$$
 DELIMITER ;
 
 -- DML
-INSERT INTO Role (role) VALUES 
+INSERT INTO 'Role' ('role') VALUES 
 ('User'),
 ('Guest'),
 ('Administrator');
 
-INSERT INTO Department (department) VALUES
+INSERT INTO 'Department' ('department') VALUES
 ('Amazonas'),
 ('Antioquía'),
 ('Arauca'),
@@ -172,7 +177,7 @@ INSERT INTO Department (department) VALUES
 ('Vaupés'),
 ('Vichada');
 
-INSERT INTO City (city, id_department) VALUES
+INSERT INTO 'City' ('city', 'id_department') VALUES
 ('Leticia', 1),
 ('Medellín', 2),
 ('Arauca', 3),
@@ -205,3 +210,78 @@ INSERT INTO City (city, id_department) VALUES
 ('Cali', 30),
 ('Mitú', 31),
 ('Puerto Carreño', 32);
+
+INSERT INTO `Tier` (`tier`, `description`) VALUES
+('General', 'Acceso general para todos los asistentes'),
+('Meet and Greet', 'Oportunidad de conocer a los artistas o conferencistas'),
+('VIP', 'Acceso VIP con beneficios adicionales como bebidas y aperitivos gratuitos'),
+('Platino', 'Acceso exclusivo con asientos prioritarios y beneficios adicionales'),
+('Oro', 'Acceso preferencial con asientos mejorados y beneficios adicionales'),
+('Plata', 'Acceso mejorado con asientos preferenciales y algunos beneficios adicionales'),
+('Bronce', 'Acceso básico con asientos asignados');
+
+INSERT INTO `Category` (`category`) VALUES
+('Parche'),
+('Concierto'),
+('Conferencia'),
+('Festival'),
+('Taller'),
+('Seminario'),
+('Feria'),
+('Exposición'),
+('Evento Deportivo'),
+('Obra de Teatro'),
+('Película'),
+('Gastronomía'),
+('Tecnología'),
+('Ciencia'),
+('Literatura'),
+('Arte'),
+('Música'),
+('Danza'),
+('Cultura'),
+('Otros');
+
+INSERT INTO `Place` (`place`, `address`, `id_city`) VALUES
+('Estadio Atanasio Girardot', 'Cra. 74 #48010', 2),
+('2150', 'Cra. 23 #65-45}', 7);
+
+INSERT INTO `Event` (`event`, `description`, `details`, `date`, `time`, `image`, `capacity`,`id_user`, `id_place`, id_category) VALUES
+('Ferxxo Calipsis','Disfruta de un concierto de Feid completamente en vivo', 'Ferxxo Calipsis es el concierto más esperado del año, trayendo consigo la energía vibrante y la presencia arrolladora de Feid. Este evento promete una noche inolvidable en el Estadio Atanasio Girardot en Medellín, un lugar icónico que ha sido testigo de los espectáculos más grandiosos.
+
+Desde el momento en que las puertas se abran, los asistentes serán recibidos con una atmósfera cargada de anticipación y emoción. La noche comenzará con una increíble serie de teloneros, seleccionados cuidadosamente para calentar el escenario y preparar al público para la actuación principal.
+
+Feid, conocido por su estilo único y su capacidad para conectar con la audiencia, ofrecerá un repertorio que incluirá sus mayores éxitos y algunas sorpresas exclusivas. Su espectáculo en vivo combinará una impresionante producción visual, efectos especiales de última generación y una calidad de sonido impecable que hará que cada nota resuene en el corazón de los asistentes.
+
+Además de la música, Ferxxo Calipsis contará con zonas VIP donde los fans podrán disfrutar de beneficios adicionales, como acceso a áreas exclusivas, bebidas y aperitivos gratuitos, y la posibilidad de conocer al artista en persona. Los asistentes también podrán encontrar una variada oferta gastronómica dentro del estadio, que incluirá opciones para todos los gustos.
+
+Este evento no es solo un concierto, es una experiencia completa diseñada para ofrecer una noche de diversión, buena música y recuerdos imborrables. Si eres fanático de Feid o simplemente amante de los conciertos en vivo, Ferxxo Calipsis es un evento que no querrás perderte. ¡Nos vemos allí!', '2024-12-08', '21:00', '/det.png', 45000, 1, 1, 2),
+
+('RCP 2024',
+'La mejor fiesta para los estudiantes de medicina de Manizales.',
+'RCP 2024 será una noche llena de música, diversión y camaradería para todos los estudiantes de medicina de Manizales. Este evento ofrecerá un ambiente vibrante con los mejores DJs locales y nacionales, iluminación espectacular y una pista de baile diseñada para que nadie pare de moverse.
+
+Además, habrá áreas de descanso, barras de bebidas con opciones variadas y zonas de comidas con una amplia oferta gastronómica.
+
+Los asistentes podrán disfrutar de juegos y actividades interactivas, creando así una experiencia inolvidable que va más allá de una simple fiesta. ¡Prepárate para una noche épica en la RCP 2024!',
+'2024-10-18',
+'22:00',
+'/2150.png',
+500,
+1,
+2,
+4);
+
+-- Tickets to "Ferxxo Calipsis"
+INSERT INTO `Ticket` (`id_event`, `price`, `remaining`, `id_tier`) VALUES
+(1, '500000', 20000, (SELECT id FROM Tier WHERE tier = 'General')),
+(1, '1500000', 5000, (SELECT id FROM Tier WHERE tier = 'VIP')),
+(1, '1000000', 3000, (SELECT id FROM Tier WHERE tier = 'Platino')),
+(1, '800000', 4000, (SELECT id FROM Tier WHERE tier = 'Oro')),
+(1, '600000', 5000, (SELECT id FROM Tier WHERE tier = 'Plata')),
+(1, '400000', 8000, (SELECT id FROM Tier WHERE tier = 'Bronce'));
+
+-- Tickets to "RCP 2024"
+INSERT INTO `Ticket` (`id_event`, `price`, `remaining`, `id_tier`) VALUES
+(2, '25000', 400, (SELECT id FROM Tier WHERE tier = 'General')),
+(2, '40000', 500, (SELECT id FROM Tier WHERE tier = 'Oro'));

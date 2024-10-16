@@ -1,6 +1,7 @@
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Department } from "./Department";
 import { User } from "./User";
+import { Place } from "./Place";
 
 @Entity()
 export class City extends BaseEntity {
@@ -16,4 +17,7 @@ export class City extends BaseEntity {
 
     @OneToMany(() => User, (user) => user.city)
     users: User[];
+
+    @OneToMany(() => Place, (place) => place.city)
+    places: Place[];
 }

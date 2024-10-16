@@ -22,7 +22,7 @@ export class User extends BaseEntity {
     @Column()
     lastname: string;
 
-    @Column()
+    @Column({ unique: true })
     email: string;
 
     @Column()
@@ -48,7 +48,7 @@ export class User extends BaseEntity {
     @JoinColumn({ name: 'id_role' })
     role: Role;
 
-    @OneToMany(() => Event, (event) => event.id_user)
+    @OneToMany(() => Event, (event) => event.user)
     events: Event[];
 
     @OneToMany(() => TicketUser, (ticketUser) => ticketUser.id_user)

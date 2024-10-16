@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { City } from "./City";
 import { Event } from "./Event";
 
 @Entity()
@@ -8,6 +9,13 @@ export class Place extends BaseEntity {
 
     @Column()
     place: string;
+
+    @Column()
+    address: string;
+
+    @ManyToOne(() => City, (city) => city.places)
+    @JoinColumn({ name: "id_city" })
+    city: City;
 
     @OneToMany(() => Event, (event) => event.place)
     events: Event[];
