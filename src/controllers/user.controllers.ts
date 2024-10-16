@@ -3,6 +3,8 @@ import { User } from "../entities/User";
 import { City } from "../entities/City";
 import { Role } from "../entities/Role";
 
+import { hashPassword, verifyPassword } from "../utils/encryption";
+
 export const createUser: RequestHandler = async (req, res) => {
     try {
         const { id, name, lastname, email, password, birth, gender, phone, created_at, id_city, id_role } = req.body;
@@ -12,24 +14,29 @@ export const createUser: RequestHandler = async (req, res) => {
         const role = await Role.findOneBy({ id: id_role });
 
         const _user = new User();
+
+        if (!city) {
+            res.status(400).json({ message: 'City not found' });
+        } else {
+            _user.city = city;
+        }
+
+        if (!role) {
+            res.status(400).json({ message: 'Role not found' });
+        } else {
+            _user.role = role;
+        }
+
+
         _user.id = id;
         _user.name = name;
         _user.lastname = lastname;
         _user.email = email;
-        _user.password = password;
+        _user.password = hashPassword(password);
         _user.birth = birth;
         _user.gender = gender;
         _user.phone = phone;
         _user.created_at = created_at;
-
-        // Verify if the city and role exist
-        if (!city || !role) {
-            res.status(400).json({ message: 'City or Role not found' });
-        } else {
-            _user.id_city = city;
-            _user.id_role = role;
-        }
-
 
         await _user.save();
 
@@ -47,24 +54,14 @@ export const loginUser: RequestHandler = async (req, res) => {
 
         const { email, password } = req.body;
 
-        const user = await User.findOne({ where: { email } });
+        const user = await User.findOne({ where: { email }, select: ["password"] });
 
-        if (!user) {
+        if (user && verifyPassword(password, user.password)) {
+            res.status(200).json({ message: "Login successful", user });
+        } else {
             res.status(401).json({ message: "Invalid credentials" });
         }
 
-        if (user?.password !== password) {
-            res.status(401).json({ message: "Credenciales inválidas" });
-        }
-
-        /*
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-        if (!isPasswordValid) {
-            res.status(401).json({ message: "Invalid credentials" });
-        }
-        */
-
-        res.status(200).json({ message: "Login successful", user });
     } catch (err) {
         if (err instanceof Error) {
             res.status(500).json({ message: err.message });

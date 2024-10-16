@@ -12,8 +12,8 @@ export class City extends BaseEntity {
 
     @ManyToOne(() => Department, (department) => department.cities)
     @JoinColumn({ name: "id_department" })
-    id_department: Department;
+    department: Department;
 
-    @OneToMany(() => User, (user) => user.id_city)
+    @OneToMany(() => User, (user) => user.city)
     users: User[];
 }

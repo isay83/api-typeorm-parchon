@@ -36,15 +36,15 @@ export class Event extends BaseEntity {
 
     @ManyToOne(() => User, (user) => user.events)
     @JoinColumn({ name: 'id_user' })
-    id_user: User;
+    user: User;
 
     @ManyToOne(() => Place, (place) => place.events)
     @JoinColumn({ name: 'id_place' })
-    id_place: Place;
+    place: Place;
 
     @ManyToOne(() => Category, (categories) => categories.events)
     @JoinColumn({ name: 'id_category' })
-    id_category: Category;
+    category: Category;
 
     @OneToMany(() => Ticket, (tickets) => tickets.id_event)
     tickets: Ticket[];

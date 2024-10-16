@@ -5,6 +5,12 @@ import { Event } from "./Event";
 import { TicketUser } from "./TicketUser";
 import { UserEvent } from "./UserEvent";
 
+enum Gender {
+    Male = "m",
+    Female = "f",
+    Other = "o"
+}
+
 @Entity()
 export class User extends BaseEntity {
     @PrimaryGeneratedColumn()
@@ -25,7 +31,7 @@ export class User extends BaseEntity {
     @Column()
     birth: Date;
 
-    @Column({ type: 'enum', enum: ['m', 'f', 'o'] })
+    @Column({ type: 'enum', enum: Gender })
     gender: string;
 
     @Column()
@@ -36,11 +42,11 @@ export class User extends BaseEntity {
 
     @ManyToOne(() => City, (city) => city.users)
     @JoinColumn({ name: 'id_city' })
-    id_city: City;
+    city: City;
 
     @ManyToOne(() => Role, (role) => role.users)
     @JoinColumn({ name: 'id_role' })
-    id_role: Role;
+    role: Role;
 
     @OneToMany(() => Event, (event) => event.id_user)
     events: Event[];

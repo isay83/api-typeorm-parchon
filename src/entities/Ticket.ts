@@ -19,7 +19,7 @@ export class Ticket extends BaseEntity {
 
     @ManyToOne(() => Tier, tier => tier.tickets)
     @JoinColumn({ name: "id_tier" })
-    id_tier: Tier;
+    tier: Tier;
 
     @ManyToOne(() => Event, event => event.tickets)
     @JoinColumn({ name: "id_event" })

@@ -12,6 +12,6 @@ export class Tier extends BaseEntity {
     @Column()
     description: string;
 
-    @OneToMany(() => Ticket, (ticket) => ticket.id_tier)
+    @OneToMany(() => Ticket, (ticket) => ticket.tier)
     tickets: Ticket[];
 }

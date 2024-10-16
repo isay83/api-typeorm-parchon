@@ -9,6 +9,6 @@ export class Department extends BaseEntity {
     @Column()
     department: string;
 
-    @OneToMany(() => City, (city) => city.id_department)
+    @OneToMany(() => City, (city) => city.department)
     cities: City[];
 }

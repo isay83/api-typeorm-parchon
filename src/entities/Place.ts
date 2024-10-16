@@ -9,6 +9,6 @@ export class Place extends BaseEntity {
     @Column()
     place: string;
 
-    @OneToMany(() => Event, (event) => event.id_place)
+    @OneToMany(() => Event, (event) => event.place)
     events: Event[];
 }

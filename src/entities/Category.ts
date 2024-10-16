@@ -9,6 +9,6 @@ export class Category extends BaseEntity {
     @Column()
     category: string;
 
-    @OneToMany(() => Event, (event) => event.id_category)
+    @OneToMany(() => Event, (event) => event.category)
     events: Event[];
 }
