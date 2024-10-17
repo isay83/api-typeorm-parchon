@@ -47,6 +47,62 @@ export const createEvent: RequestHandler = async (req, res) => {
     }
 };
 
+export const getEventCard: RequestHandler = async (req, res) => {
+    try {
+        const _event = await Event.createQueryBuilder('event')
+            .leftJoinAndSelect('event.place', 'place')
+            .select([
+                'event.id',
+                'event.event',
+                'event.description',
+                'event.date',
+                'event.time',
+                'event.image',
+                'place.place',
+                'place.address'
+            ])
+            .orderBy('event.date', 'ASC')
+            .getMany();
+        res.json(_event);
+    } catch (err) {
+        if (err instanceof Error) {
+            res.status(500).json({ message: err.message });
+        }
+        res.status(500).json({ message: "Unknown error occurred" });
+    }
+}
+
+export const getEventDetails: RequestHandler = async (req, res) => {
+    try {
+        const { id } = req.params
+        const _event = await Event.createQueryBuilder('event')
+            .leftJoinAndSelect('event.place', 'place')
+            .select([
+                'event.id',
+                'event.event',
+                'event.details',
+                'event.date',
+                'event.time',
+                'event.image',
+                'place.place',
+                'place.address'
+            ])
+            .where('event.id = :id', { id: id })
+            .getOne();
+
+        if (!_event) {
+            res.status(404).json({ message: "Event not found" });
+        }
+
+        res.json(_event);
+    } catch (err) {
+        if (err instanceof Error) {
+            res.status(500).json({ message: err.message });
+        }
+        res.status(500).json({ message: "Unknown error occurred" });
+    }
+}
+
 export const getEvents: RequestHandler = async (req, res) => {
     try {
         const _event = await Event.find();
