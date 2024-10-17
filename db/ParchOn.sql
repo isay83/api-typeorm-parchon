@@ -246,7 +246,7 @@ INSERT INTO `Place` (`place`, `address`, `id_city`) VALUES
 ('Estadio Atanasio Girardot', 'Cra. 74 #48010', 2),
 ('2150', 'Cra. 23 #65-45}', 7);
 
-INSERT INTO `Event` (`event`, `description`, `details`, `date`, `time`, `image`, `capacity`,`id_user`, `id_place`, id_category) VALUES
+INSERT INTO `Event` (`event`, `description`, `details`, `date`, `time`, `image`, `capacity`,`id_user`, `id_place`, `id_category`) VALUES
 ('Ferxxo Calipsis','Disfruta de un concierto de Feid completamente en vivo', 'Ferxxo Calipsis es el concierto más esperado del año, trayendo consigo la energía vibrante y la presencia arrolladora de Feid. Este evento promete una noche inolvidable en el Estadio Atanasio Girardot en Medellín, un lugar icónico que ha sido testigo de los espectáculos más grandiosos.
 
 Desde el momento en que las puertas se abran, los asistentes serán recibidos con una atmósfera cargada de anticipación y emoción. La noche comenzará con una increíble serie de teloneros, seleccionados cuidadosamente para calentar el escenario y preparar al público para la actuación principal.
