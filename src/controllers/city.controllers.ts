@@ -1,14 +1,21 @@
 import { RequestHandler } from "express";
 import { City } from "../entities/City";
+import { Department } from "../entities/Department";
 
 export const createCity: RequestHandler = async (req, res) => {
     try {
         const { id, city, id_department } = req.body;
 
         const _city = new City();
+        const department = await Department.findOneBy({ id: id_department });
+
+        if (department) {
+            _city.department = department;
+        }
+
         _city.id = id;
         _city.city = city;
-        _city.id_department = id_department;
+
 
         await _city.save();
 

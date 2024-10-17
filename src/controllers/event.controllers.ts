@@ -1,11 +1,32 @@
 import { RequestHandler } from "express";
 import { Event } from "../entities/Event";
+import { Category } from "../entities/Category";
+import { User } from "../entities/User";
+import { Place } from "../entities/Place";
 
 export const createEvent: RequestHandler = async (req, res) => {
     try {
         const { id, event, description, date, time, image, capacity, rating, id_user, id_place, id_category } = req.body;
 
         const _event = new Event();
+
+        const user = await User.findOneBy({ id: id_user });
+        const place = await Place.findOneBy({ id: id_place });
+        const category = await Category.findOneBy({ id: id_category });
+
+        if (user) {
+            _event.user = id_user;
+
+        }
+
+        if (place) {
+            _event.place = id_place;
+        }
+
+        if (category) {
+            _event.category = id_category;
+        }
+
         _event.id = id;
         _event.event = event;
         _event.description = description;
@@ -14,9 +35,6 @@ export const createEvent: RequestHandler = async (req, res) => {
         _event.image = image;
         _event.capacity = capacity;
         _event.rating = rating;
-        _event.id_user = id_user;
-        _event.id_place = id_place;
-        _event.id_category = id_category;
 
         await _event.save();
 
