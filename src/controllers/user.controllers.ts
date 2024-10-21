@@ -31,7 +31,6 @@ export const createUser: RequestHandler = async (req, res) => {
             _user.role = role;
         }
 
-
         _user.id = id;
         _user.name = name;
         _user.lastname = lastname;
@@ -43,6 +42,28 @@ export const createUser: RequestHandler = async (req, res) => {
         _user.created_at = created_at;
 
         await _user.save();
+
+        const token = jwt.sign(
+            {
+                id: _user.id,
+                email: _user.email,
+                name: _user.name,
+                lastname: _user.lastname,
+                role: _user.role.role,
+            },
+            JWT_SECRET_KEY,
+            {
+                expiresIn: "1d",
+            }
+        );
+
+        // Crear cookie con el token
+        res.cookie(COOKIE_SECRET_KEY, token, {
+            httpOnly: true,
+            sameSite: "strict",
+            maxAge: 3600000 * 24, // 1 día
+            secure: process.env.NODE_ENV === "production",
+        });
 
         res.status(201).json(_user);
     } catch (err) {
