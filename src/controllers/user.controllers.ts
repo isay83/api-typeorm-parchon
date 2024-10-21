@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import jwt from "jsonwebtoken";
 
-import { JWT_SECRET_KEY } from "../config";
+import { JWT_SECRET_KEY, COOKIE_SECRET_KEY } from "../config";
 
 import { User } from "../entities/User";
 import { City } from "../entities/City";
@@ -79,7 +79,7 @@ export const loginUser: RequestHandler = async (req, res) => {
                 expiresIn: "1d"
             })
 
-            res.cookie("SESSIONPON", token, {
+            res.cookie(COOKIE_SECRET_KEY, token, {
                 httpOnly: true,
                 sameSite: "strict",
                 maxAge: 3600000 * 24,
@@ -93,6 +93,15 @@ export const loginUser: RequestHandler = async (req, res) => {
         }
         res.status(500).json({ message: "Unknown error occurred" });
     }
+};
+
+export const logoutUser: RequestHandler = (req, res) => {
+    res.clearCookie(COOKIE_SECRET_KEY, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+    })
+        .status(200).json({ message: "Logged out successfully" });
 };
 
 
@@ -167,10 +176,9 @@ export const getUser: RequestHandler = async (req, res) => {
 
 export const getUserByCookie: RequestHandler = async (req, res) => {
     try {
-
         const token = req.cookies.SESSIONPON;
-        console.log("token" + req.cookies);
-
+        console.log("----------------------------------")
+        console.log("token: " + token);
         // Decodificar el token para obtener el ID del usuario
         const decoded = jwt.verify(token, JWT_SECRET_KEY) as { id: number }; // Usa tu clave secreta para verificar el token
         //const userId = decoded.id;
@@ -187,8 +195,6 @@ export const getUserByCookie: RequestHandler = async (req, res) => {
 
             res.json(_user)
         }
-
-
     } catch (err) {
         if (err instanceof Error) {
             console.error("Error in getUserByCookie:", err);
@@ -207,10 +213,9 @@ export const getCookieExists: RequestHandler = async (req, res) => {
 
         const isAuthenticated = !!decoded && typeof decoded.id === 'number';
 
-        if (!token) {
+        if (token === undefined) {
             res.status(401).json({ message1: "No token provided" });
         } else {
-
             res.json({ isAuthenticated: isAuthenticated })
         }
 

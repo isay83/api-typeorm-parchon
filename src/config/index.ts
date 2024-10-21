@@ -12,3 +12,5 @@ export const DB_PORT = process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 330
 export const DB_NAME = process.env.DB_NAME || 'DB';
 
 export const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || 'defaultSecretKey';
+
+export const COOKIE_SECRET_KEY = process.env.COOKIE_SECRET_KEY || 'defaultSecretKey';
