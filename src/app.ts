@@ -1,6 +1,7 @@
 import express from 'express'
 import morgan from 'morgan'
 import cors from 'cors'
+import cookieParser from 'cookie-parser'
 
 import departmentRoutes from './routes/department.routes'
 import cityRoutes from './routes/city.routes'
@@ -13,8 +14,12 @@ import categoryRoutes from './routes/category.routes'
 const app = express()
 
 app.use(morgan('dev'))
-app.use(cors())
+app.use(cors({
+    origin: 'http://localhost:3000', // Frontend local domain
+    credentials: true
+}))
 app.use(express.json())
+app.use(cookieParser())
 
 app.use(departmentRoutes)
 app.use(cityRoutes)
