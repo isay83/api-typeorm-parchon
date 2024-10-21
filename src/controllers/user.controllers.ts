@@ -126,8 +126,8 @@ export const updateUser: RequestHandler = async (req, res) => {
         if (!_user) res.status(404).json({ message: "User not found" })
 
         await User.update({ id: parseInt(id) }, req.body)
-
-        res.sendStatus(204)
+        const updatedUser = await User.findOneBy({ id: parseInt(id) })
+        res.status(200).json(updatedUser)
     } catch (err) {
         if (err instanceof Error) {
             res.status(500).json({ message: err.message });
