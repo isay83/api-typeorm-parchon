@@ -3,6 +3,8 @@ node_modules/
 
 # Ignorar archivos de entorno
 .env
+.env*.local
+
 
 # Ignorar archivos de compilación
 dist/
