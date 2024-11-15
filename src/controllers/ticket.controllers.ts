@@ -96,3 +96,32 @@ export const getTicket: RequestHandler = async (req, res) => {
         res.status(500).json({ message: "Unknown error occurred" });
     }
 };
+
+export const getTicketTier: RequestHandler = async (req, res) => {
+    try {
+        const { id } = req.params
+
+        const _ticket = await Ticket.createQueryBuilder('ticket')
+            .leftJoinAndSelect('ticket.tier', 'tier')
+            .select([
+                'ticket.id',
+                'ticket.price',
+                'ticket.remaining',
+                'tier.tier',
+                'tier.description'
+            ])
+            .where('ticket.id_event = :id', { id: id })
+            .getMany();
+
+        if (!_ticket) {
+            res.status(404).json({ message: "Ticket not found" })
+        }
+
+        res.json(_ticket)
+    } catch (err) {
+        if (err instanceof Error) {
+            res.status(500).json({ message: err.message });
+        }
+        res.status(500).json({ message: "Unknown error occurred" });
+    }
+};

@@ -26,9 +26,6 @@ export class Event extends BaseEntity {
     time: Date;
 
     @Column()
-    birth: Date;
-
-    @Column()
     image: string;
 
     @Column()
