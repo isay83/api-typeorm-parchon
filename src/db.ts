@@ -12,17 +12,19 @@ import { Tier } from "./entities/Tier"
 import { TicketUser } from "./entities/TicketUser"
 import { UserEvent } from "./entities/UserEvent"
 
+import { DB_HOST, DB_USER, DB_PASS, DB_PORT, DB_NAME } from "./config"
+
 import dotenv from "dotenv"
 
 dotenv.config()
 
 export const AppDataSource = new DataSource({
     type: "mysql",
-    host: process.env.DB_HOST,
-    username: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    port: 3306,
-    database: process.env.DB_NAME,
+    host: DB_HOST,
+    username: DB_USER,
+    password: DB_PASS,
+    port: DB_PORT,
+    database: DB_NAME,
     entities: [Department, City, User, Role, Place, Event, Category, Ticket, Tier, TicketUser, UserEvent],
     logging: true,
     synchronize: false
