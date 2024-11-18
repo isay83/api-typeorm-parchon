@@ -6,7 +6,7 @@ import { Place } from "../entities/Place";
 
 export const createEvent: RequestHandler = async (req, res) => {
     try {
-        const { id, event, description, date, time, image, capacity, rating, id_user, id_place, id_category } = req.body;
+        const { id, event, description, details, date, time, image, capacity, rating, id_user, id_place, id_category } = req.body;
 
         const _event = new Event();
 
@@ -30,6 +30,7 @@ export const createEvent: RequestHandler = async (req, res) => {
         _event.id = id;
         _event.event = event;
         _event.description = description;
+        _event.details = details;
         _event.date = date;
         _event.time = time;
         _event.image = image;
