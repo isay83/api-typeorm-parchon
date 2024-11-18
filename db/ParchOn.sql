@@ -1,5 +1,10 @@
 -- DDL
 
+CREATE DATABASE DBparchon;
+CREATE USER USERparchon@'%' IDENTIFIED BY 'PASSparchon';
+GRANT ALL PRIVILEGES ON DBparchon.* TO USERparchon@'%';
+FLUSH PRIVILEGES;
+
 CREATE TABLE `Department` (
   `id` integer PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `department` varchar(255) NOT NULL
