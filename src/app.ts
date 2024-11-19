@@ -23,7 +23,7 @@ app.use(cors({
     credentials: true
 }))
 app.use(cors({
-    origin: 'http://http://13.58.197.196:3000', // Frontend domain
+    origin: 'http://13.58.197.196:3000', // Frontend domain
     credentials: true
 }))
 app.use(express.json())
