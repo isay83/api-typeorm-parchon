@@ -24,10 +24,9 @@ const corsOptions = {
     credentials: true,
 };
 
-
-app.use(morgan('dev'))
-app.options('*', cors(corsOptions)); // Asegura que todas las solicitudes OPTIONS tengan las cabeceras correctas
 app.use(cors(corsOptions))
+app.options('*', cors(corsOptions)); // Asegura que todas las solicitudes OPTIONS tengan las cabeceras correctas
+app.use(morgan('dev'))
 app.use(express.json())
 app.use(cookieParser())
 
