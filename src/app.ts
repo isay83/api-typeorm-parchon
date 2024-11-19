@@ -17,15 +17,17 @@ import userEvent from './routes/userEvent.routes'
 
 const app = express()
 
+const corsOptions = {
+    origin: ['http://localhost:3000', 'http://13.58.197.196:3000'], // Permite múltiples orígenes
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+};
+
+
 app.use(morgan('dev'))
-app.use(cors({
-    origin: 'http://localhost:3000', // Frontend local domain
-    credentials: true
-}))
-app.use(cors({
-    origin: 'http://13.58.197.196:3000', // Frontend domain
-    credentials: true
-}))
+app.options('*', cors(corsOptions)); // Asegura que todas las solicitudes OPTIONS tengan las cabeceras correctas
+app.use(cors(corsOptions))
 app.use(express.json())
 app.use(cookieParser())
 
