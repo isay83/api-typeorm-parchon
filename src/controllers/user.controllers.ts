@@ -102,7 +102,7 @@ export const loginUser: RequestHandler = async (req, res) => {
 
             res.cookie(COOKIE_SECRET_KEY, token, {
                 httpOnly: true,
-                sameSite: "strict",
+                sameSite: "none",
                 maxAge: 3600000 * 24,
                 secure: process.env.NODE_ENV === "production",
             })
