@@ -22,6 +22,10 @@ app.use(cors({
     origin: 'http://localhost:3000', // Frontend local domain
     credentials: true
 }))
+app.use(cors({
+    origin: 'http://http://13.58.197.196:3000', // Frontend domain
+    credentials: true
+}))
 app.use(express.json())
 app.use(cookieParser())
 
