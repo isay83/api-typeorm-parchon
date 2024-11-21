@@ -8,6 +8,7 @@ import { City } from "../entities/City";
 import { Role } from "../entities/Role";
 
 import { hashPassword, verifyPassword } from "../utils/encryption";
+import TokenUtils from "../utils/token";
 
 export const createUser: RequestHandler = async (req, res) => {
     try {
@@ -104,7 +105,9 @@ export const loginUser: RequestHandler = async (req, res) => {
                 httpOnly: true,
                 sameSite: "strict",
                 maxAge: 3600000 * 24,
-                secure: false,//process.env.NODE_ENV === "production",
+                secure: process.env.NODE_ENV === "production",
+                path: "/",
+
             })
                 .status(200).json({ message: "Login successful", user });
         }
@@ -124,7 +127,6 @@ export const logoutUser: RequestHandler = (req, res) => {
     })
         .status(200).json({ message: "Logged out successfully" });
 };
-
 
 export const getUsers: RequestHandler = async (req, res) => {
     try {
@@ -197,32 +199,24 @@ export const getUser: RequestHandler = async (req, res) => {
 
 export const getUserByCookie: RequestHandler = async (req, res) => {
     try {
-        const token = req.cookies.SESSIONPON;
-        console.log("----------------------------------")
-        console.log("token: " + token);
-        // Decodificar el token para obtener el ID del usuario
-        const decoded = jwt.verify(token, JWT_SECRET_KEY) as { id: number }; // Usa tu clave secreta para verificar el token
-        //const userId = decoded.id;
-        console.log("decoded: " + decoded);
+        // Obtener el ID del usuario directamente desde el token
+        const userId = TokenUtils.getUserIdFromRequest(req);
 
-        if (!token) {
-            res.status(401).json({ message1: "No token provided" });
+        if (!userId) {
+            res.status(401).json({ message: "No token provided or invalid token" });
         } else {
-            const _user = await User.findOneBy({ id: decoded.id });
-
-            if (!_user) {
-                res.status(404).json({ message2: "User not found" })
+            const user = await User.findOneBy({ id: userId });
+            if (!user) {
+                res.status(404).json({ message: "User not found" });
+            } else {
+                res.json(user);
             }
-
-            res.json(_user)
         }
     } catch (err) {
-        if (err instanceof Error) {
-            console.error("Error in getUserByCookie:", err);
-            res.status(500).json({ message3: err.message });
-        } else {
-            res.status(500).json({ message4: "Unknown error occurred" });
-        }
+        console.error("Error in getUserByCookie:", err);
+        res.status(500).json({
+            message: err instanceof Error ? err.message : "Unknown error occurred"
+        });
     }
 };
 
@@ -248,5 +242,23 @@ export const getCookieExists: RequestHandler = async (req, res) => {
         } else {
             res.status(500).json({ message3: "Unknown error occurred" });
         }
+    }
+};
+
+export const getRoleByCookie: RequestHandler = async (req, res) => {
+    try {
+        const role = TokenUtils.getRoleFromRequest(req);
+
+        if (!role) {
+            res.status(401).json({ message1: "No token provided" });
+        } else {
+            res.json({ role })
+        }
+
+    } catch (err) {
+        console.error("Error in getRoleByCookie:", err);
+        res.status(500).json({
+            message: err instanceof Error ? err.message : "Unknown error occurred"
+        });
     }
 };

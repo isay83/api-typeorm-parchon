@@ -26,6 +26,6 @@ export const AppDataSource = new DataSource({
     port: DB_PORT,
     database: DB_NAME,
     entities: [Department, City, User, Role, Place, Event, Category, Ticket, Tier, TicketUser, UserEvent],
-    logging: true,
+    logging: ['error', 'warn'],
     synchronize: false
 })
