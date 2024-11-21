@@ -63,7 +63,7 @@ export const createUser: RequestHandler = async (req, res) => {
             httpOnly: true,
             sameSite: "strict",
             maxAge: 3600000 * 24, // 1 día
-            secure: process.env.NODE_ENV === "production",
+            secure: false,//process.env.NODE_ENV === "production",
         });
 
         res.status(201).json(_user);
@@ -107,6 +107,7 @@ export const loginUser: RequestHandler = async (req, res) => {
                 maxAge: 3600000 * 24,
                 secure: process.env.NODE_ENV === "production",
                 path: "/",
+
             })
                 .status(200).json({ message: "Login successful", user });
         }
@@ -121,7 +122,7 @@ export const loginUser: RequestHandler = async (req, res) => {
 export const logoutUser: RequestHandler = (req, res) => {
     res.clearCookie(COOKIE_SECRET_KEY, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        secure: false, //process.env.NODE_ENV === "production",
         sameSite: "strict",
     })
         .status(200).json({ message: "Logged out successfully" });
