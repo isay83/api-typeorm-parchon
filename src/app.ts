@@ -20,7 +20,9 @@ const app = express()
 app.use(morgan('dev'))
 app.use(cors({
     origin: 'http://localhost:3000', // Frontend local domain
-    credentials: true
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Cookie']
 }))
 app.use(express.json())
 app.use(cookieParser())
