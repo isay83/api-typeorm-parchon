@@ -15,10 +15,12 @@ import tierRoutes from './routes/tier.routes'
 import userRoutes from './routes/user.routes'
 import userEvent from './routes/userEvent.routes'
 
+import { FRONT_URL } from './config'
+
 const app = express()
 
 const corsOptions = {
-    origin: 'http://localhost:3000', // Frontend local domain
+    origin: `${FRONT_URL}`, // Frontend local domain
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Cookie']

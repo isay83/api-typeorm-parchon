@@ -14,3 +14,5 @@ export const DB_NAME = process.env.DB_NAME || 'DB';
 export const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || 'defaultSecretKey';
 
 export const COOKIE_SECRET_KEY = process.env.COOKIE_SECRET_KEY || 'defaultSecretKey';
+
+export const FRONT_URL = process.env.FRONT_URL || 'http://localhost:3000';
