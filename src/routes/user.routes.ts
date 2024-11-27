@@ -11,6 +11,8 @@ router.post("/login", loginUser);
 router.post("/logout", logoutUser);
 // Get by cookie
 router.post("/users/cookie", getUserByCookie);
+// Get Role by Cookie 2
+router.post("/role", getRoleByCookie);
 // Get Role by Cookie
 router.get("/role", getRoleByCookie);
 // Get all

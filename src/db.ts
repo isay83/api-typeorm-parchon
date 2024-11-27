@@ -11,6 +11,7 @@ import { Ticket } from "./entities/Ticket"
 import { Tier } from "./entities/Tier"
 import { TicketUser } from "./entities/TicketUser"
 import { UserEvent } from "./entities/UserEvent"
+import { Image } from "./entities/Image"
 
 import { DB_HOST, DB_USER, DB_PASS, DB_PORT, DB_NAME } from "./config"
 
@@ -25,7 +26,7 @@ export const AppDataSource = new DataSource({
     password: DB_PASS,
     port: DB_PORT,
     database: DB_NAME,
-    entities: [Department, City, User, Role, Place, Event, Category, Ticket, Tier, TicketUser, UserEvent],
+    entities: [Department, City, User, Role, Place, Event, Category, Ticket, Tier, TicketUser, UserEvent, Image],
     logging: ['error', 'warn'],
     synchronize: false
 })

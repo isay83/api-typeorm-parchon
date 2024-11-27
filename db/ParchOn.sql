@@ -91,6 +91,21 @@ CREATE TABLE `UserEvent` (
   PRIMARY KEY (`id_user`, `id_event`)
 );
 
+CREATE TABLE `Image` (
+  `id` integer PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `url` TEXT NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `id_event` INT NOT NULL,
+  `id_user` INT NOT NULL
+);
+
+CREATE TABLE 'Like' (
+  `id_image` integer NOT NULL,
+  `id_user` integer NOT NULL,
+  PRIMARY KEY (`id_image`, `id_user`)
+);
+
+
 ALTER TABLE `City` ADD FOREIGN KEY (`id_department`) REFERENCES `Department` (`id`);
 
 ALTER TABLE `User` ADD FOREIGN KEY (`id_city`) REFERENCES `City` (`id`);
@@ -119,6 +134,13 @@ ALTER TABLE `UserEvent` ADD FOREIGN KEY (`id_event`) REFERENCES `Event` (`id`);
 
 ALTER TABLE `UserEvent` ADD FOREIGN KEY (`id_user`) REFERENCES `User` (`id`);
 
+ALTER TABLE `Image` ADD FOREIGN KEY (`id_event`) REFERENCES `Event` (`id`);
+
+ALTER TABLE `Image` ADD FOREIGN KEY (`id_user`) REFERENCES `User` (`id`);
+
+ALTER TABLE `Like` ADD FOREIGN KEY (`id_image`) REFERENCES `Image` (`id`);
+
+ALTER TABLE `Like` ADD FOREIGN KEY (`id_user`) REFERENCES `User` (`id`);
 -- If need a Superuser to create the Trigger
 -- Login as root and type:
 -- SET GLOBAL log_bin_trust_function_creators = 1;

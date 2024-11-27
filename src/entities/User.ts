@@ -4,6 +4,7 @@ import { Role } from "./Role";
 import { Event } from "./Event";
 import { TicketUser } from "./TicketUser";
 import { UserEvent } from "./UserEvent";
+import { Image } from "./Image";
 
 enum Gender {
     Male = "m",
@@ -56,4 +57,7 @@ export class User extends BaseEntity {
 
     @OneToMany(() => UserEvent, (userEvent) => userEvent.id_user)
     userEvents: UserEvent[];
+
+    @OneToMany(() => Image, (image) => image.user)
+    images: Image[];
 }
