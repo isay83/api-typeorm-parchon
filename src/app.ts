@@ -13,7 +13,8 @@ import ticketRoutes from './routes/ticket.routes'
 import ticketUserRoutes from './routes/ticketUser.routes'
 import tierRoutes from './routes/tier.routes'
 import userRoutes from './routes/user.routes'
-import userEvent from './routes/userEvent.routes'
+import userEventRoutes from './routes/userEvent.routes'
+import imageRoutes from './routes/image.routes'
 
 import { FRONT_URL } from './config'
 
@@ -44,6 +45,7 @@ app.use(ticketRoutes)
 app.use(ticketUserRoutes)
 app.use(tierRoutes)
 app.use(userRoutes)
-app.use(userEvent)
+app.use(userEventRoutes)
+app.use(imageRoutes)
 
 export default app

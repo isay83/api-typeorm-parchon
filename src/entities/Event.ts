@@ -4,6 +4,7 @@ import { Place } from "./Place";
 import { Category } from "./Category";
 import { Ticket } from "./Ticket";
 import { UserEvent } from "./UserEvent";
+import { Image } from "./Image";
 
 @Entity()
 export class Event extends BaseEntity {
@@ -51,4 +52,7 @@ export class Event extends BaseEntity {
 
     @OneToMany(() => UserEvent, (userEvent) => userEvent.id_event)
     userEvents: UserEvent[];
+
+    @OneToMany(() => Image, (image) => image.event)
+    images: Image[];
 }

@@ -16,3 +16,7 @@ export const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || 'defaultSecretKey';
 export const COOKIE_SECRET_KEY = process.env.COOKIE_SECRET_KEY || 'defaultSecretKey';
 
 export const FRONT_URL = process.env.FRONT_URL || 'http://localhost:3000';
+
+export const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME || 'cloud_name';
+export const CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY || 'api_key';
+export const CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET || 'api_secret';

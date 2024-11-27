@@ -38,8 +38,9 @@ export const getCities: RequestHandler = async (req, res) => {
     } catch (err) {
         if (err instanceof Error) {
             res.status(500).json({ message: err.message });
+        } else {
+            res.status(500).json({ message: "Unknown error occurred" });
         }
-        res.status(500).json({ message: "Unknown error occurred" });
     }
 };
 
